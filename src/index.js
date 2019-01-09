@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import Masonry from 'masonry-layout';
+// import Masonry from 'masonry-layout';
+import Masonry from 'react-masonry-component';
 
 const DEFAULT_COLOR = 'yellow';
 
@@ -87,52 +88,68 @@ class NoteEditor extends Component {
  
 
 class NotesGrid extends Component {
+
   // componentDidMount() {
   //   const grid = this.grid;
 
   //   this.msnry = new Masonry(grid, {
-  //     columnWidth: 240,
-  //     gutter: 10,
-  //     isFitWidth: true
+  //       columnWidth: 240,
+  //       gutter: 10,
+  //       isFitWidth: true
   //   });
   // }
 
-  componentDidMount() {
-    const grid = this.grid;
-
-    this.msnry = new Masonry(grid, {
-        columnWidth: 240,
-        gutter: 10,
-        isFitWidth: true
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.notes !== this.props.notes) {
-    this.msnry.reloadItems();
-    this.msnry.layout();
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.notes !== this.props.notes) {
+  //   this.msnry.reloadItems();
+  //   this.msnry.layout();
+  //   }
+  // }
 
   render() {
     const { 
       notes,
       onNoteDelete 
     } = this.props;
+
+    const masonryOptions = {
+      columnWidth: 250,
+      gutter: 10,
+      isFitWidth: true
+    };
+
     return (
-      <div className="grid" ref={c => this.grid = c}>
+      // <div className="grid" ref={c => this.grid = c}>
+      //   {
+      //     notes.map(note =>
+      //       <Note 
+      //         key={note.id}
+      //         text={note.text}
+      //         color={note.color}
+      //         onDelete={onNoteDelete}
+      //         id={note.id}
+      //       />
+      //     )
+      //   }
+      // </div>
+      <Masonry
+        className='grid'
+        options={masonryOptions}
+      >
         {
           notes.map(note =>
-            <Note 
+            <Note
               key={note.id}
-              text={note.text}
+              id={note.id}
               color={note.color}
               onDelete={onNoteDelete}
-              id={note.id}
-            />
+              text={note.text}
+            >
+              {/* {note.text} */}
+            </Note>
           )
         }
-      </div>
+      </Masonry>
     )
   }
 }; 
